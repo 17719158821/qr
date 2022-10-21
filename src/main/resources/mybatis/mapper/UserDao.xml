@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.zzuli.qridentify.dao.UserDao">
+    <select id="getUserInfo" resultType="cn.edu.zzuli.qridentify.entity.UserInfo">
+        select *
+        from user_info u
+        where u.identify_code = #{identifyCode}
+    </select>
+
+
+    <select id="getUserInfoByCode" resultType="cn.edu.zzuli.qridentify.entity.UserInfo">
+        select *
+        from user_info u
+        where u.identify_code = #{identifyCode}
+    </select>
+
+    <select id="getCertificateInfo" resultType="cn.edu.zzuli.qridentify.entity.CertificateInfo">
+        select *
+        from certificate_info c
+        where c.identify_code = #{identifyCode}
+        <if test="type != null">
+            and c.type = #{type}
+        </if>
+
+    </select>
+
+    <select id="getCertificateInfoByCertificateCode" resultType="cn.edu.zzuli.qridentify.entity.CertificateInfo">
+        select *
+        from certificate_info c
+        where c.certificate_code = #{certificateCode}
+    </select>
+    <select id="getCertificationByEnterName" resultType="cn.edu.zzuli.qridentify.entity.CertificateInfo">
+        select
+        c.certificate_code,
+        c.type,
+        c.certificate_dept,
+        c.review_result,
+        c.certificate_date,
+        c.level,
+        c.qr_code_path,
+        c.certificate_id,
+        c.enterprise_id
+        from certificate_info c, enterprise_info e
+        where e.enterprise_name = #{enterpriseName}
+        and e.enterprise_id = c.enterprise_id
+        <if test="type != null">
+            and c.type = #{type}
+        </if>
+    </select>
+    <select id="getEnterInfo" resultType="cn.edu.zzuli.qridentify.entity.Enterprise">
+        select *
+        from enterprise_info
+        where enterprise_name = #{enterpriseName}
+    </select>
+
+    <select id="getEnterInfoByEnterId" resultType="cn.edu.zzuli.qridentify.entity.Enterprise">
+        select *
+        from enterprise_info
+        where enterprise_id = #{enterpriseId}
+    </select>
+</mapper>

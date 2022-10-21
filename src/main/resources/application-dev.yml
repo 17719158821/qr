@@ -1,0 +1,36 @@
+spring:
+  mvc:
+    date-format: yyyy-MM-dd
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/qr?serverTimezone=UTC&characterEncoding=utf8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    initial-size: 5
+    min-idle: 10
+    max-active: 20
+    max-wait: 60000
+  devtools:
+    restart:
+      enabled: true
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
+logging:
+  level:
+    cn.edu.zzuli.qridentify.dao: debug
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: countSql
+
+
+qr:
+  path:
+    generate: http://124.220.156.201:8801/result?certificateCode=
+    linux: /JavaDev/qrStatic/
+    windows: D:\WorkSpace\IdeaWorkSpace\qr\files\
+
+

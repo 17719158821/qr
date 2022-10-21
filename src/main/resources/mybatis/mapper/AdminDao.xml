@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.zzuli.qridentify.dao.AdminDao">
+    <update id="updateQrPath">
+        update certificate_info
+        set qr_code_path=#{path}
+        where certificate_code = #{certificateCode}
+    </update>
+
+    <insert id="insertUserInfo" parameterType="cn.edu.zzuli.qridentify.entity.UserInfo">
+        insert into user_info
+            (name, identify_code, age, phone_number, address, gender, pic)
+        values (#{name}, #{identifyCode}, #{age}, #{phoneNumber}, #{address}, #{gender}, #{pic})
+    </insert>
+
+    <insert id="insertCertificateInfo" parameterType="cn.edu.zzuli.qridentify.entity.CertificateInfo">
+        insert into certificate_info
+        (certificate_code, type, test_grade, practice_grade, certificate_dept, review_result, total_grade,
+         certificate_date, identify_code, level)
+        values (#{certificateCode}, #{type}, #{testGrade}, #{practiceGrade}, #{certificateDept}, #{reviewResult},
+                #{totalGrade}, #{certificateDate}, #{identifyCode}, #{level})
+    </insert>
+
+    <select id="selectUserInfoByIdentify" resultType="cn.edu.zzuli.qridentify.entity.UserInfo">
+        select *
+        from user_info
+        where identify_code = #{identifyCode}
+    </select>
+    <delete id="removeUserInfo">
+        delete
+        from user_info
+        where identify_code = #{identifyCode}
+    </delete>
+
+    <select id="selectCertificateInfoByCCode" resultType="cn.edu.zzuli.qridentify.entity.CertificateInfo">
+        select *
+        from certificate_info
+        where certificate_code = #{certificateCode}
+    </select>
+
+    <select id="selectCertificateInfoByICode" resultType="cn.edu.zzuli.qridentify.entity.CertificateInfo">
+        select *
+        from certificate_info
+        where identify_code = #{identifyCode}
+    </select>
+
+    <delete id="removeCertificateInfo">
+        delete
+        from certificate_info
+        where certificate_code = #{certificateCode};
+    </delete>
+
+    <update id="updateUserInfo">
+        update user_info
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="identifyCode != null">
+                identify_code = #{identifyCode},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="phoneNumber != null">
+                phone_number = #{phoneNumber},
+            </if>
+            <if test="address != null">
+                address = #{address},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="pic != null">
+                pic = #{pic},
+            </if>
+        </set>
+        where
+        user_id=#{userId}
+
+    </update>
+
+    <update id="updateCertificateInfo">
+        update certificate_info
+        <set>
+            <if test="certificateCode != null">
+                certificate_code = #{certificateCode},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="testGrade != null">
+                test_grade = #{testGrade},
+            </if>
+            <if test="practiceGrade != null">
+                practice_grade = #{practiceGrade},
+            </if>
+            <if test="certificateDept != null">
+                certificate_dept = #{certificateDept},
+            </if>
+            <if test="reviewResult != null">
+                review_result = #{reviewResult},
+            </if>
+            <if test="totalGrade != null">
+                total_grade = #{totalGrade},
+            </if>
+            <if test="certificateDate != null">
+                certificate_date = #{certificateDate},
+            </if>
+            <if test="identifyCode !=null">
+                identify_code = #{identifyCode},
+            </if>
+            <if test="level != null">
+                level = #{level},
+            </if>
+
+        </set>
+        where
+        certificate_id=#{certificateId}
+    </update>
+
+    <select id="selectAllCertificateInfoList" resultType="cn.edu.zzuli.qridentify.entity.CertificateInfo">
+        select *
+        from certificate_info
+    </select>
+    <select id="selectAllUserList" resultType="cn.edu.zzuli.qridentify.entity.UserInfo">
+        select *
+        from user_info
+    </select>
+
+    <update id="updatePicPath">
+        update user_info
+        set pic=#{path}
+        where identify_code = #{identifyCode}
+    </update>
+
+    <select id="selectAminByUNameAndPasswd" resultType="cn.edu.zzuli.qridentify.entity.Admin">
+        select * from admin where username = #{username} and password = #{password}
+    </select>
+</mapper>
