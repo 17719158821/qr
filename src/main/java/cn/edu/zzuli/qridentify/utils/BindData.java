@@ -52,10 +52,10 @@ public class BindData {
             testGrade = Double.valueOf(tGrade);
         }
         if (!StringUtils.isEmpty(pGrade)) {
-            practiceGrade = Double.valueOf(practiceGrade);
+            practiceGrade = Double.valueOf(pGrade);
         }
         if (!StringUtils.isEmpty(toGrade)) {
-            totalGrade = Double.valueOf(totalGrade);
+            totalGrade = Double.valueOf(toGrade);
         }
 
 
