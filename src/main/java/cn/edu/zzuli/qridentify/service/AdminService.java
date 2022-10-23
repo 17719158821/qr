@@ -27,4 +27,5 @@ public interface AdminService {
 
     Result login(Admin admin);
 
+    Result addEnterPriseInfo(Map<String, Object> map);
 }

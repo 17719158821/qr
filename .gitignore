@@ -4,6 +4,7 @@ target/
 !**/src/main/**
 !**/src/test/**
 files/
+cache/
 
 ### STS ###
 .apt_generated

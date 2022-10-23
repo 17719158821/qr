@@ -12,13 +12,17 @@ import java.util.Map;
 public class BindData {
     public static void bind(UserInfo userInfo, CertificateInfo certificateInfo, Map<String, Object> map) {
         String date = (String) map.get("certificateDate");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date certificateDate = null;
-        try {
-            certificateDate = dateFormat.parse(date);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
+        if (!StringUtils.isEmpty(date)) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            try {
+                certificateDate = dateFormat.parse(date);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
         }
+
         Long userId = null;
         String userId_tem = (String) map.get("userId");
         if (!StringUtils.isEmpty(userId_tem)) {
@@ -40,16 +44,25 @@ public class BindData {
         String tGrade = (String) map.get("testGrade");
         String pGrade = (String) map.get("practiceGrade");
         String toGrade = (String) map.get("totalGrade");
-        Double testGrade = Double.valueOf(tGrade);
-        Double practiceGrade = Double.valueOf(pGrade);
-        Double totalGrade = Double.valueOf(toGrade);
+        Double testGrade = null;
+        Double practiceGrade = null;
+        Double totalGrade = null;
+        if (!StringUtils.isEmpty(tGrade)) {
+            testGrade = Double.valueOf(tGrade);
+        }
+        if (!StringUtils.isEmpty(pGrade)) {
+            practiceGrade = Double.valueOf(practiceGrade);
+        }
+        if (!StringUtils.isEmpty(toGrade)) {
+            totalGrade = Double.valueOf(totalGrade);
+        }
 
 
         String qrCodePath = (String) map.get("qrCodePath");
         String certificateCode = (String) map.get("certificateCode");
         String certificateId_item = (String) map.get("certificateId");
         Long certificateId = null;
-        if(!StringUtils.isEmpty(certificateId_item)){
+        if (!StringUtils.isEmpty(certificateId_item)) {
             certificateId = Long.valueOf(certificateId_item);
         }
 

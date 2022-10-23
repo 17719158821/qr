@@ -37,4 +37,7 @@ public interface AdminDao {
     void updatePicPath(@Param("identifyCode")String identifyCode, @Param("path")String path);
 
     Admin selectAminByUNameAndPasswd(@Param("username") String username, @Param("password") String password);
+
+//    查看同一个人是否拥有多个同一种证书
+    CertificateInfo selectCertificateInfoByCTypeAndLevel(@Param("identifyCode") String identifyCode, @Param("type") String type);
 }

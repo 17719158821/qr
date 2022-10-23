@@ -42,11 +42,11 @@ public class AdminServiceIpm implements AdminService {
         if (SystemJudgeUtil.systemJudge()) {
 //            base_path = "D:\\WorkSpace\\IdeaWorkSpace\\qr\\files\\";
             base_path = windows_path;
-            base_path = System.getProperty("user.dir")+"\\cache\\";
+            base_path = System.getProperty("user.dir") + "\\cache\\";
 
         } else {
             base_path = linux_path;
-            base_path = System.getProperty("user.dir")+"/cache/";
+            base_path = System.getProperty("user.dir") + "/cache/";
 
 //            base_path = "/JavaDev/qrStatic/";
         }
@@ -94,6 +94,11 @@ public class AdminServiceIpm implements AdminService {
         }
 
         CertificateInfo isCExist = adminDao.selectCertificateInfoByCCode(certificateInfo.getCertificateCode());
+        if (isCExist != null) {
+            return new Result("新增失败", Result.ERR);
+        }
+        //查看同一个人是否拥有相同的证书
+        isCExist = adminDao.selectCertificateInfoByCTypeAndLevel(userInfo.getIdentifyCode(),certificateInfo.getType());
         if (isCExist != null) {
             return new Result("新增失败", Result.ERR);
         }
@@ -194,6 +199,7 @@ public class AdminServiceIpm implements AdminService {
         }
     }
 
+
     @Override
     public Result selectCerUserInfo(String certificateCode) {
         CertificateInfo certificateInfo = adminDao.selectCertificateInfoByCCode(certificateCode);
@@ -217,6 +223,12 @@ public class AdminServiceIpm implements AdminService {
             return new Result("登录成功", Result.OK);
         }
         return new Result("登录失败", Result.ERR);
+    }
+
+    //    新增企业证书数据
+    @Override
+    public Result addEnterPriseInfo(Map<String, Object> map) {
+        return null;
     }
 
 

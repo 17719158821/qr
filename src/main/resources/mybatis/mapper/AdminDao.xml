@@ -137,4 +137,9 @@
     <select id="selectAminByUNameAndPasswd" resultType="cn.edu.zzuli.qridentify.entity.Admin">
         select * from admin where username = #{username} and password = #{password}
     </select>
+
+
+    <select id="selectCertificateInfoByCTypeAndLevel" resultType="cn.edu.zzuli.qridentify.entity.CertificateInfo">
+        select * from certificate_info where identify_code=#{identifyCode} and type=#{type}
+    </select>
 </mapper>

@@ -26,7 +26,14 @@ public class AdminController {
     @PostMapping("add")
     @ResponseBody
     public Result addInfo(@RequestBody Map<String, Object> map) {
-        Result result = adminService.add(map);
+        Result result = adminService.  add(map);
+        return result;
+    }
+    //    添加企业证书数据
+    @PostMapping("addEnter")
+    @ResponseBody
+    public Result addEnterPriseInfo(@RequestBody Map<String, Object> map) {
+        Result result = adminService.addEnterPriseInfo(map);
         return result;
     }
 
