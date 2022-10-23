@@ -9,9 +9,10 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class Enterprise {
     private String enterpriseName;
-    private Long enterpriseId;
+    private String enterpriseId;
     private String address;
-
+    private String phoneNumber;
+    private Long id;
     public Enterprise(){
 
     }

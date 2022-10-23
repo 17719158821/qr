@@ -28,4 +28,12 @@ public interface AdminService {
     Result login(Admin admin);
 
     Result addEnterPriseInfo(Map<String, Object> map);
+
+    Result deleteEnter(Map<String, String> map);
+
+    Result updateEnter(Map<String, Object> map);
+
+    List<InfoVo> selectEnterList();
+
+    Result selectCerEnterInfo(String certificateCode);
 }

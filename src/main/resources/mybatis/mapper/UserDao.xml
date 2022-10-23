@@ -29,7 +29,7 @@
         from certificate_info c
         where c.certificate_code = #{certificateCode}
     </select>
-    <select id="getCertificationByEnterName" resultType="cn.edu.zzuli.qridentify.entity.CertificateInfo">
+    <select id="getCertificationByEnterId" resultType="cn.edu.zzuli.qridentify.entity.CertificateInfo">
         select
         c.certificate_code,
         c.type,
@@ -41,8 +41,8 @@
         c.certificate_id,
         c.enterprise_id
         from certificate_info c, enterprise_info e
-        where e.enterprise_name = #{enterpriseName}
-        and e.enterprise_id = c.enterprise_id
+        where e.enterprise_id = c.enterprise_id
+          and e.enterprise_id = #{enterpriseId}
         <if test="type != null">
             and c.type = #{type}
         </if>
@@ -50,7 +50,7 @@
     <select id="getEnterInfo" resultType="cn.edu.zzuli.qridentify.entity.Enterprise">
         select *
         from enterprise_info
-        where enterprise_name = #{enterpriseName}
+        where enterprise_id = #{enterpriseId}
     </select>
 
     <select id="getEnterInfoByEnterId" resultType="cn.edu.zzuli.qridentify.entity.Enterprise">

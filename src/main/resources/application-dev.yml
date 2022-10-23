@@ -29,7 +29,8 @@ pagehelper:
 
 qr:
   path:
-    generate: http://124.220.156.201:8801/result?certificateCode=
+#    generate: http://124.220.156.201:8801/result?certificateCode=
+    generate: http://192.168.1.16:8080/result?certificateCode=
     linux: /JavaDev/qrStatic/
     windows: D:\WorkSpace\IdeaWorkSpace\qr\files\
 

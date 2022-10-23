@@ -16,9 +16,9 @@
     <insert id="insertCertificateInfo" parameterType="cn.edu.zzuli.qridentify.entity.CertificateInfo">
         insert into certificate_info
         (certificate_code, type, test_grade, practice_grade, certificate_dept, review_result, total_grade,
-         certificate_date, identify_code, level)
+         certificate_date, identify_code, level, certificate_id, enterprise_id)
         values (#{certificateCode}, #{type}, #{testGrade}, #{practiceGrade}, #{certificateDept}, #{reviewResult},
-                #{totalGrade}, #{certificateDate}, #{identifyCode}, #{level})
+                #{totalGrade}, #{certificateDate}, #{identifyCode}, #{level}, #{certificateId}, #{enterpriseId})
     </insert>
 
     <select id="selectUserInfoByIdentify" resultType="cn.edu.zzuli.qridentify.entity.UserInfo">
@@ -135,11 +135,95 @@
     </update>
 
     <select id="selectAminByUNameAndPasswd" resultType="cn.edu.zzuli.qridentify.entity.Admin">
-        select * from admin where username = #{username} and password = #{password}
+        select *
+        from admin
+        where username = #{username}
+          and password = #{password}
     </select>
 
 
-    <select id="selectCertificateInfoByCTypeAndLevel" resultType="cn.edu.zzuli.qridentify.entity.CertificateInfo">
-        select * from certificate_info where identify_code=#{identifyCode} and type=#{type}
+    <select id="selectCertificateInfoByCTypeAndUserInfo" resultType="cn.edu.zzuli.qridentify.entity.CertificateInfo">
+        select *
+        from certificate_info
+        where identify_code = #{identifyCode}
+          and type = #{type}
+    </select>
+
+    <select id="selectEnterInfoByEnId" resultType="cn.edu.zzuli.qridentify.entity.Enterprise">
+        select *
+        from enterprise_info
+        where enterprise_id = #{enterpriseId}
+    </select>
+
+    <delete id="removeEnterInfo">
+        delete
+        from enterprise_info
+        where enterprise_name = #{enterpriseName}
+    </delete>
+
+    <select id="selectCertificateInfoByCTypeAndEnterInfo" resultType="cn.edu.zzuli.qridentify.entity.CertificateInfo">
+        select *
+        from certificate_info c
+        where c.enterprise_id = #{enterpriseId}
+          and c.type = #{type}
+
+    </select>
+
+
+    <insert id="insertEnterInfo" parameterType="cn.edu.zzuli.qridentify.entity.Enterprise">
+        insert into enterprise_info
+            (enterprise_name, enterprise_id, address, phone_number)
+        values (#{enterpriseName}, #{enterpriseId}, #{address}, #{phoneNumber})
+    </insert>
+
+
+    <update id="updateEnterCertificateInfo" parameterType="cn.edu.zzuli.qridentify.entity.CertificateInfo">
+        update certificate_info
+        <set>
+            <if test="certificateCode != null">
+                certificate_code = #{certificateCode},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="certificateDept != null">
+                certificate_dept = #{certificateDept},
+            </if>
+            <if test="reviewResult != null">
+                review_result = #{reviewResult},
+            </if>
+            <if test="certificateDate != null">
+                certificate_date = #{certificateDate},
+            </if>
+            <if test="level != null">
+                level = #{level},
+            </if>
+        </set>
+        where
+        certificate_code=#{certificateCode}
+    </update>
+    <update id="updateEnterpriseInfo" parameterType="cn.edu.zzuli.qridentify.entity.Enterprise">
+        update enterprise_info
+        <set>
+            <if test="enterpriseName != null">
+                enterprise_name = #{enterpriseName},
+            </if>
+            <if test="enterpriseId != null">
+                enterprise_id = #{enterpriseId},
+            </if>
+            <if test="address != null">
+                address = #{address},
+            </if>
+            <if test="phoneNumber != null">
+                phone_number = #{phoneNumber},
+            </if>
+        </set>
+        where
+        enterprise_id=#{enterpriseId}
+    </update>
+
+    <select id="selectAllEnterList" resultType="cn.edu.zzuli.qridentify.entity.Enterprise">
+        select *
+        from enterprise_info
     </select>
 </mapper>

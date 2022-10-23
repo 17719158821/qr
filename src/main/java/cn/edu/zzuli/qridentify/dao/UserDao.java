@@ -16,9 +16,9 @@ public interface UserDao {
 
     CertificateInfo getCertificateInfoByCertificateCode(@Param("certificateCode")String code);
 
-    CertificateInfo getCertificationByEnterName(@Param("enterpriseName") String enterpriseName, @Param("type")String type);
+    CertificateInfo getCertificationByEnterId(@Param("enterpriseId") String enterpriseId, @Param("type")String type);
 
-    Enterprise getEnterInfo(@Param("enterpriseName") String enterpriseName);
+    Enterprise getEnterInfo(@Param("enterpriseId") String enterpriseName);
 
-    Enterprise getEnterInfoByEnterId(@Param("enterpriseId")Long enterpriseId);
+    Enterprise getEnterInfoByEnterId(@Param("enterpriseId")String enterpriseId);
 }

@@ -34,7 +34,7 @@ public class CertificateInfo {
     private String qrCodePath;
     private Long certificateId;
 
-    private Long enterpriseId;
+    private String enterpriseId;
     public CertificateInfo() {
     }
 }

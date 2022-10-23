@@ -33,15 +33,15 @@ public class QueryController {
     }
 
     /**
-     * 根据公司名称与证书类别查询某一张证书
+     * 根据公司企业ID与证书类别查询某一张证书
      */
     @PostMapping("enterinfo")
     @ResponseBody
     public Result queryByEnterInfo(@RequestBody Map<String, String> map) {
-        String enterpriseName = map.get("enterpriseName");
+        String enterpriseId = map.get("enterpriseId");
         String type = map.get("type");
 
-        InfoVo result = queryService.getEnterInfo(enterpriseName, type);
+        InfoVo result = queryService.getEnterInfo(enterpriseId, type);
         if (result != null) {
             return new Result("查询成功", Result.OK, result);
         }

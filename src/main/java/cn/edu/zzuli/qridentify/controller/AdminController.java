@@ -6,6 +6,7 @@ import cn.edu.zzuli.qridentify.service.AdminService;
 import cn.edu.zzuli.qridentify.utils.Result;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import lombok.Generated;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,13 +28,6 @@ public class AdminController {
     @ResponseBody
     public Result addInfo(@RequestBody Map<String, Object> map) {
         Result result = adminService.  add(map);
-        return result;
-    }
-    //    添加企业证书数据
-    @PostMapping("addEnter")
-    @ResponseBody
-    public Result addEnterPriseInfo(@RequestBody Map<String, Object> map) {
-        Result result = adminService.addEnterPriseInfo(map);
         return result;
     }
 
@@ -74,12 +68,6 @@ public class AdminController {
     }
 
 
-    @ResponseBody
-    public Result uploadQRPic(@RequestParam("file") MultipartFile file, @Param("certificateCode") String certificateCode) {
-        Result result = adminService.uploadQRPic(file, certificateCode);
-        return result;
-    }
-
     //    查询个人证书数据
     @PostMapping("queryInfo")
     @ResponseBody
@@ -95,4 +83,51 @@ public class AdminController {
         Result result = adminService.login(admin);
         return result;
     }
+
+    //    添加企业证书数据
+    @PostMapping("addEnter")
+    @ResponseBody
+    public Result addEnterPriseInfo(@RequestBody Map<String, Object> map) {
+        Result result = adminService.addEnterPriseInfo(map);
+        return result;
+    }
+
+
+    //    删除企业证书数据
+    @PostMapping("delEnter")
+    @ResponseBody
+    public Result deleteEnterInfo(@RequestBody Map<String, String> map) {
+        Result result = adminService.deleteEnter(map);
+        return result;
+    }
+
+    //    更新企业证书数据
+    @PostMapping("updateEnter")
+    @ResponseBody
+    public Result updateEnterInfo(@RequestBody Map<String, Object> map) {
+        Result result = adminService.updateEnter(map);
+        return result;
+    }
+    //    列出所有企业证书
+    @GetMapping("queryEnter")
+    @ResponseBody
+    public Result queryAllEnterList(@RequestParam int pageNum, @RequestParam int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<InfoVo> infoVos = adminService.selectEnterList();
+
+        PageInfo pageInfo = new PageInfo(infoVos);
+
+        return new Result("查询成功", Result.OK, pageInfo);
+    }
+
+    //    查询企业证书数据
+    @GetMapping("queryEnterInfo")
+    @ResponseBody
+    public Result queryEnterInfo(@RequestParam("certificateCode")String certificateCode) {
+        Result result = adminService.selectCerEnterInfo(certificateCode);
+        return result;
+    }
+
+
+
 }
