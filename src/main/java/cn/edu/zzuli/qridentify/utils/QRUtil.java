@@ -190,7 +190,7 @@ public class QRUtil {
 //            其中margin，x，y，f都不要更改
             zxingImage = QRUtil.enQRCode(content, width, height, 7);
             Font f = new Font("Times New Roman", Font.PLAIN, 30);
-            BufferedImage saver = QRUtil.drawString(zxingImage, "CD2022102022021", 107, 425, f, new Color(0, 0, 0));
+            BufferedImage saver = QRUtil.drawString(zxingImage, img_text, 85, 425, f, new Color(0, 0, 0));
             InputStream saveInout = QRUtil.bufferedImageToInputStream(saver);
             QRUtil.saveFile(saveInout, dist_path);
         } catch (Exception e) {

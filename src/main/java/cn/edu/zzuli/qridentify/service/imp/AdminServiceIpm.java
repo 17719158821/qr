@@ -177,13 +177,28 @@ public class AdminServiceIpm implements AdminService {
 
     @Override
     public Result uploadUserPic(MultipartFile multipartFile, String identifyCode) {
+
+
+        String base_path;
+
         File file = MultiPartFile2File.MultiPartFileToFile(multipartFile);
+        if (SystemJudgeUtil.systemJudge()) {
+            base_path = windows_path;
+            base_path = System.getProperty("user.dir") + "\\cache\\";
+
+        } else {
+            base_path = linux_path;
+            base_path = System.getProperty("user.dir") + "/cache/";
+
+
+        }
         try {
-            String fileName = multipartFile.getOriginalFilename();
+            String ori_name = multipartFile.getOriginalFilename();
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
             String time = format.format(new Date());
-            fileName = time + "-" + fileName;
-            String url = FIleUpload.upload(fileName, file);
+            ori_name = base_path+time + "-" + ori_name;
+
+            String url = FIleUpload.upload(ori_name, file);
             adminDao.updatePicPath(identifyCode, url);
             return new Result("上传成功", Result.OK, url);
         } catch (Exception e) {
