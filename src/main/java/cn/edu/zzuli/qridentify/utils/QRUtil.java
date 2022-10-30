@@ -192,6 +192,7 @@ public class QRUtil {
             Font f = new Font("Times New Roman", Font.PLAIN, 30);
             BufferedImage saver = QRUtil.drawString(zxingImage, img_text, 85, 425, f, new Color(0, 0, 0));
             InputStream saveInout = QRUtil.bufferedImageToInputStream(saver);
+//            二维码保存到本地缓存
             QRUtil.saveFile(saveInout, dist_path);
         } catch (Exception e) {
             e.printStackTrace();

@@ -23,40 +23,36 @@ public class AdminServiceIpm implements AdminService {
     AdminDao adminDao;
     @Value("${qr.path.generate}")
     String web_content;
-    @Value("${qr.path.linux}")
+    @Value("$(qr.path.linux)")
     String linux_path;
     @Value("$(qr.path.windows)")
     String windows_path;
 
     public boolean generateQr(String code) {
-//        String content = "http://192.168.1.19:8080/result?certificateCode=";
         String base_path;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
         String time = format.format(new Date());
         if (SystemJudgeUtil.systemJudge()) {
-//            base_path = "D:\\WorkSpace\\IdeaWorkSpace\\qr\\files\\";
-            base_path = windows_path;
             base_path = System.getProperty("user.dir") + "\\cache\\";
-
         } else {
-            base_path = linux_path;
             base_path = System.getProperty("user.dir") + "/cache/";
-
-//            base_path = "/JavaDev/qrStatic/";
         }
         QRUtil.mkdirs(base_path);
-
-
         if (!StringUtils.isEmpty(code)) {
+//            生成文件名，code+时间
             String fileName = code + "-" + time + ".png";
-//            使用项目当前地址作为缓存路径
+//            生成本地缓存路径，
             String file_path = base_path + fileName;
-
+//            生成二维码内容
             String content = web_content + code;
             try {
-                //生成本地二维码
+                //生成二维码，保存到本地缓存
                 QRUtil.generateQRFile(content, code, file_path);
-                //将文件上传
+                /**
+                 * 参数：
+                 *  filename：文件原名-code-yyyy-MM-dd-HH-mm-ss.png
+                 *  FIle：缓存文件路径 /cache/code-yyyy-MM-dd-HH-mm-ss.png
+                 */
                 String url = FIleUpload.upload(fileName, new File(file_path));
                 if (!StringUtils.isEmpty(url)) {
                     adminDao.updateQrPath(code, url);
@@ -64,16 +60,33 @@ public class AdminServiceIpm implements AdminService {
                 } else {
                     return false;
                 }
-
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         } else {
             return false;
         }
-
     }
+    @Override
+    public Result uploadUserPic(MultipartFile multipartFile, String identifyCode) {
+        String base_path;
 
+        if (SystemJudgeUtil.systemJudge()) {
+            base_path = System.getProperty("user.dir") + "\\cache\\";
+        } else {
+            base_path = System.getProperty("user.dir") + "/cache/";
+        }
+        String cacheFilePath = MultiPartFile2File.MultiPartFileToFile(multipartFile,base_path);
+        try {
+//            获取文件原名
+            String ori_name = multipartFile.getOriginalFilename();
+            String url = FIleUpload.upload(ori_name, new File(cacheFilePath));
+            adminDao.updatePicPath(identifyCode, url);
+            return new Result("上传成功", Result.OK, url);
+        } catch (Exception e) {
+            return new Result("上传失败", Result.ERR);
+        }
+    }
     @Override
     public Result add(Map<String, Object> map) {
         UserInfo userInfo = new UserInfo();
@@ -209,50 +222,6 @@ public class AdminServiceIpm implements AdminService {
         return infoVos;
     }
 
-    @Override
-    public Result uploadQRPic(MultipartFile multipartFile, String certificateCode) {
-        //文件上传前的名称
-        File file = MultiPartFile2File.MultiPartFileToFile(multipartFile);
-        try {
-            String url = FIleUpload.upload(multipartFile.getOriginalFilename(), file);
-            adminDao.updateQrPath(certificateCode, url);
-            return new Result("上传成功", Result.OK, url);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-//        return new Result("",Result.ERR);
-    }
-
-    @Override
-    public Result uploadUserPic(MultipartFile multipartFile, String identifyCode) {
-
-
-        String base_path;
-
-        File file = MultiPartFile2File.MultiPartFileToFile(multipartFile);
-        if (SystemJudgeUtil.systemJudge()) {
-            base_path = windows_path;
-            base_path = System.getProperty("user.dir") + "\\cache\\";
-
-        } else {
-            base_path = linux_path;
-            base_path = System.getProperty("user.dir") + "/cache/";
-
-
-        }
-        try {
-            String ori_name = multipartFile.getOriginalFilename();
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-            String time = format.format(new Date());
-            ori_name = base_path + time + "-" + ori_name;
-
-            String url = FIleUpload.upload(ori_name, file);
-            adminDao.updatePicPath(identifyCode, url);
-            return new Result("上传成功", Result.OK, url);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     @Override
     public Result selectCerUserInfo(String certificateCode) {
