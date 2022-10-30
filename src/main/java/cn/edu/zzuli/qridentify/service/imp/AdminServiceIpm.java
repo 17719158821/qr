@@ -21,7 +21,6 @@ import java.util.Map;
 public class AdminServiceIpm implements AdminService {
     @Autowired
     AdminDao adminDao;
-
     @Value("${qr.path.generate}")
     String web_content;
     @Value("${qr.path.linux}")
@@ -80,7 +79,6 @@ public class AdminServiceIpm implements AdminService {
         UserInfo userInfo = new UserInfo();
         CertificateInfo certificateInfo = new CertificateInfo();
         BindData.bind(userInfo, certificateInfo, map);
-
         //查询这个人存不存在，如果不存在则新增，存在则更新
         UserInfo isExist = adminDao.selectUserInfoByIdentify(userInfo);
         if (isExist != null) {
@@ -96,8 +94,6 @@ public class AdminServiceIpm implements AdminService {
         if (isCExist != null) {
             return new Result("新增失败，该用户拥有同类型证书", Result.ERR);
         }
-
-
         int j = adminDao.insertCertificateInfo(certificateInfo);
         boolean suss_ = generateQr(certificateInfo.getCertificateCode());
         if (!suss_) {
@@ -109,21 +105,73 @@ public class AdminServiceIpm implements AdminService {
         return new Result("新增失败", Result.ERR);
     }
 
+    //    新增企业证书数据
+    @Override
+    public Result addEnterPriseInfo(Map<String, Object> map) {
+        Enterprise enterpriseInfo = new Enterprise();
+        CertificateInfo certificateInfo = new CertificateInfo();
+        BindData.bindEnter(enterpriseInfo, certificateInfo, map);
+        //查询这公司存不存在，如果不存在则新增，存在则更新
+        Enterprise isExist = adminDao.selectEnterInfoByEnId(enterpriseInfo.getEnterpriseId());
+        if (isExist != null) {
+            adminDao.removeEnterInfo(enterpriseInfo.getEnterpriseName());
+        }
+        int i = adminDao.insertEnterInfo(enterpriseInfo);
+        CertificateInfo isCExist = adminDao.selectCertificateInfoByCCode(certificateInfo.getCertificateCode());
+        if (isCExist != null) {
+            return new Result("新增失败,该证书编号重复", Result.ERR);
+        }
+        //查看同一个公司是否拥有相同的证书
+        isCExist = adminDao.selectCertificateInfoByCTypeAndEnterInfo(enterpriseInfo.getEnterpriseId(), certificateInfo.getType());
+        if (isCExist != null) {
+            return new Result("新增失败，该单位拥有相同类型证书", Result.ERR);
+        }
+        int j = adminDao.insertCertificateInfo(certificateInfo);
+        boolean suss_ = generateQr(certificateInfo.getCertificateCode());
+        if (!suss_) {
+            return new Result("新增失败", Result.ERR);
+        }
+        if (i + j > 1) {
+            return new Result("新增成功", Result.OK);
+        }
+        return new Result("新增失败", Result.ERR);
+    }
+
+    //    删除个人用户证书
     @Override
     public Result delete(Map<String, String> map) {
         String certificateCode = map.get("certificateCode");
-        adminDao.removeCertificateInfo(certificateCode);
         CertificateInfo certificateInfo = adminDao.selectCertificateInfoByCCode(certificateCode);
+        if (certificateInfo == null) {
+            return new Result("删除失败,证书不存在", Result.ERR);
+        }
+
+        adminDao.removeCertificateInfo(certificateCode);
+        certificateInfo = adminDao.selectCertificateInfoByCCode(certificateCode);
         if (certificateInfo == null) {
             return new Result("删除成功", Result.OK);
         }
-        //判断当前证书的拥有者是否还有其他证书，如果没有则直接把拥有者也删除
-        String identifyCode = certificateInfo.getIdentifyCode();
-        List<CertificateInfo> certificateInfoList = adminDao.selectCertificateInfoByICode(identifyCode);
-        if (certificateInfoList.size() < 1 || certificateInfoList == null) {
-            adminDao.removeUserInfo(new UserInfo().setIdentifyCode(identifyCode));
+
+        return new Result("删除失败", Result.ERR);
+    }
+
+    //    删除企业证书
+    @Override
+    public Result deleteEnter(Map<String, String> map) {
+        String certificateCode = map.get("certificateCode");
+        CertificateInfo certificateInfo = adminDao.selectCertificateInfoByCCode(certificateCode);
+        if (certificateInfo == null) {
+            return new Result("删除失败,证书不存在", Result.ERR);
         }
-        return new Result("删除成功", Result.OK);
+
+        adminDao.removeCertificateInfo(certificateCode);
+
+        certificateInfo = adminDao.selectCertificateInfoByCCode(certificateCode);
+        if (certificateInfo == null) {
+            return new Result("删除成功", Result.OK);
+        }
+
+        return new Result("删除失败", Result.ERR);
     }
 
     @Override
@@ -196,7 +244,7 @@ public class AdminServiceIpm implements AdminService {
             String ori_name = multipartFile.getOriginalFilename();
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
             String time = format.format(new Date());
-            ori_name = base_path+time + "-" + ori_name;
+            ori_name = base_path + time + "-" + ori_name;
 
             String url = FIleUpload.upload(ori_name, file);
             adminDao.updatePicPath(identifyCode, url);
@@ -231,62 +279,6 @@ public class AdminServiceIpm implements AdminService {
         return new Result("登录失败", Result.ERR);
     }
 
-    //    新增企业证书数据
-    @Override
-    public Result addEnterPriseInfo(Map<String, Object> map) {
-
-        Enterprise enterpriseInfo = new Enterprise();
-        CertificateInfo certificateInfo = new CertificateInfo();
-        BindData.bindEnter(enterpriseInfo, certificateInfo, map);
-
-        //查询这公司存不存在，如果不存在则新增，存在则更新
-        Enterprise isExist = adminDao.selectEnterInfoByEnId(enterpriseInfo.getEnterpriseId());
-        if (isExist != null) {
-            adminDao.removeEnterInfo(enterpriseInfo.getEnterpriseName());
-
-        }
-        int i = adminDao.insertEnterInfo(enterpriseInfo);
-
-        CertificateInfo isCExist = adminDao.selectCertificateInfoByCCode(certificateInfo.getCertificateCode());
-        if (isCExist != null) {
-            return new Result("新增失败,该证书编号重复", Result.ERR);
-        }
-        //查看同一个公司是否拥有相同的证书
-        isCExist = adminDao.selectCertificateInfoByCTypeAndEnterInfo(enterpriseInfo.getEnterpriseId(), certificateInfo.getType());
-        if (isCExist != null) {
-            return new Result("新增失败，该单位拥有相同类型证书", Result.ERR);
-        }
-
-
-        int j = adminDao.insertCertificateInfo(certificateInfo);
-        boolean suss_ = generateQr(certificateInfo.getCertificateCode());
-        if (!suss_) {
-            return new Result("新增失败", Result.ERR);
-        }
-        if (i + j > 1) {
-            return new Result("新增成功", Result.OK);
-        }
-        return new Result("新增失败", Result.ERR);
-    }
-
-    //    删除企业证书
-    @Override
-    public Result deleteEnter(Map<String, String> map) {
-        String certificateCode = map.get("certificateCode");
-        CertificateInfo certificateInfo = adminDao.selectCertificateInfoByCCode(certificateCode);
-        if (certificateInfo == null) {
-            return new Result("删除失败,证书不存在", Result.ERR);
-        }
-
-        adminDao.removeCertificateInfo(certificateCode);
-
-        certificateInfo = adminDao.selectCertificateInfoByCCode(certificateCode);
-        if (certificateInfo == null) {
-            return new Result("删除成功", Result.OK);
-        }
-
-        return new Result("删除失败", Result.ERR);
-    }
 
     @Override
     public Result updateEnter(Map<String, Object> map) {

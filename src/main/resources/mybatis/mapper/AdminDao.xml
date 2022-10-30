@@ -56,9 +56,9 @@
             <if test="name != null">
                 name = #{name},
             </if>
-            <if test="identifyCode != null">
-                identify_code = #{identifyCode},
-            </if>
+<!--            <if test="identifyCode != null">-->
+<!--                identify_code = #{identifyCode},-->
+<!--            </if>-->
             <if test="age != null">
                 age = #{age},
             </if>
@@ -76,16 +76,16 @@
             </if>
         </set>
         where
-        user_id=#{userId}
+        identify_code = #{identifyCode}
 
     </update>
 
     <update id="updateCertificateInfo">
         update certificate_info
         <set>
-            <if test="certificateCode != null">
-                certificate_code = #{certificateCode},
-            </if>
+<!--            <if test="certificateCode != null">-->
+<!--                certificate_code = #{certificateCode},-->
+<!--            </if>-->
             <if test="type != null">
                 type = #{type},
             </if>
@@ -107,16 +107,16 @@
             <if test="certificateDate != null">
                 certificate_date = #{certificateDate},
             </if>
-            <if test="identifyCode !=null">
-                identify_code = #{identifyCode},
-            </if>
+<!--            <if test="identifyCode !=null">-->
+<!--                identify_code = #{identifyCode},-->
+<!--            </if>-->
             <if test="level != null">
                 level = #{level},
             </if>
 
         </set>
         where
-        certificate_id=#{certificateId}
+        certificate_code = #{certificateCode}
     </update>
 
     <select id="selectAllCertificateInfoList" resultType="cn.edu.zzuli.qridentify.entity.CertificateInfo">
@@ -180,9 +180,9 @@
     <update id="updateEnterCertificateInfo" parameterType="cn.edu.zzuli.qridentify.entity.CertificateInfo">
         update certificate_info
         <set>
-            <if test="certificateCode != null">
-                certificate_code = #{certificateCode},
-            </if>
+<!--            <if test="certificateCode != null">-->
+<!--                certificate_code = #{certificateCode},-->
+<!--            </if>-->
             <if test="type != null">
                 type = #{type},
             </if>
@@ -208,9 +208,9 @@
             <if test="enterpriseName != null">
                 enterprise_name = #{enterpriseName},
             </if>
-            <if test="enterpriseId != null">
-                enterprise_id = #{enterpriseId},
-            </if>
+<!--            <if test="enterpriseId != null">-->
+<!--                enterprise_id = #{enterpriseId},-->
+<!--            </if>-->
             <if test="address != null">
                 address = #{address},
             </if>
