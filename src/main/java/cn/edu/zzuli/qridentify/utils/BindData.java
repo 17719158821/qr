@@ -15,6 +15,9 @@ public class BindData {
         String date = (String) map.get("certificateDate");
 
         if (!StringUtils.isEmpty(date)) {
+            if(date.length()>10){
+                date = date.substring(0,10);
+            }
             Date certificateDate = Date.valueOf(date);
             certificateInfo.setCertificateDate(certificateDate);
         }
@@ -83,6 +86,9 @@ public class BindData {
         String certificateDate_tem = (String) map.get("certificateDate");
 
         if (!StringUtils.isEmpty(certificateDate_tem)) {
+            if(certificateDate_tem.length()>10){
+                certificateDate_tem = certificateDate_tem.substring(0,10);
+            }
             Date date = Date.valueOf(certificateDate_tem);
             certificateInfo.setCertificateDate(date);
         }

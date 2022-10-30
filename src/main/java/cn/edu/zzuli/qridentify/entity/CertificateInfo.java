@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
+import java.sql.Date;
 
 @Data
 @AllArgsConstructor
