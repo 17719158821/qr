@@ -95,13 +95,15 @@ public class BindData {
         String type = (String) map.get("type");
         String level = (String) map.get("level");
         String certificateDept = (String) map.get("certificateDept");
-        String reviewResult = (String) map.get("reviewResult");
+//        String reviewResult = (String) map.get("reviewResult");
         String certificateCode = (String) map.get("certificateCode");
         String certificateId_item = (String) map.get("certificateId");
         Long certificateId = null;
         if (!StringUtils.isEmpty(certificateId_item)) {
             certificateId = Long.valueOf(certificateId_item);
         }
-        certificateInfo.setType(type).setLevel(level).setCertificateDept(certificateDept).setReviewResult(reviewResult).setCertificateCode(certificateCode).setCertificateId(certificateId).setEnterpriseId(enterpriseId);
+        certificateInfo.setType(type).setLevel(level).setCertificateDept(certificateDept)
+//                .setReviewResult(reviewResult)
+                .setCertificateCode(certificateCode).setCertificateId(certificateId).setEnterpriseId(enterpriseId);
     }
 }
