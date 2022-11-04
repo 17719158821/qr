@@ -129,9 +129,9 @@
     </select>
 
     <update id="updatePicPath">
-        update user_info
-        set pic=#{path}
-        where identify_code = #{identifyCode}
+        update certificate_info
+        set certificate_file=#{path}
+        where certificate_code = #{certificateCode}
     </update>
 
     <select id="selectAminByUNameAndPasswd" resultType="cn.edu.zzuli.qridentify.entity.Admin">

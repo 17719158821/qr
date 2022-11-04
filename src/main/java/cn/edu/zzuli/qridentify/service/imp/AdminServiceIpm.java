@@ -68,7 +68,7 @@ public class AdminServiceIpm implements AdminService {
         }
     }
     @Override
-    public Result uploadUserPic(MultipartFile multipartFile, String identifyCode) {
+    public Result uploadUserPic(MultipartFile multipartFile, String certificateCode) {
         String base_path;
 
         if (SystemJudgeUtil.systemJudge()) {
@@ -81,7 +81,7 @@ public class AdminServiceIpm implements AdminService {
 //            获取文件原名
             String ori_name = multipartFile.getOriginalFilename();
             String url = FIleUpload.upload(ori_name, new File(cacheFilePath));
-            adminDao.updatePicPath(identifyCode, url);
+            adminDao.updatePicPath(certificateCode, url);
             return new Result("上传成功", Result.OK, url);
         } catch (Exception e) {
             return new Result("上传失败", Result.ERR);

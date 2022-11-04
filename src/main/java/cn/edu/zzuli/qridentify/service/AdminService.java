@@ -18,7 +18,7 @@ public interface AdminService {
     Result update(Map<String, Object> map);
 
     List<InfoVo> selectList();
-    Result uploadUserPic(MultipartFile file, String identifyCode);
+    Result uploadUserPic(MultipartFile file, String certificateCode);
 
     Result selectCerUserInfo(String certificateCode);
 

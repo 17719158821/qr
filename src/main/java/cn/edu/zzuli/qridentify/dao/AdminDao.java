@@ -35,7 +35,7 @@ public interface AdminDao {
 
     List<UserInfo> selectAllUserList();
 
-    void updatePicPath(@Param("identifyCode")String identifyCode, @Param("path")String path);
+    void updatePicPath(@Param("certificateCode")String certificateCode, @Param("path")String path);
 
     Admin selectAminByUNameAndPasswd(@Param("username") String username, @Param("password") String password);
 

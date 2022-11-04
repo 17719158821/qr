@@ -35,6 +35,10 @@ public class CertificateInfo {
     private Long certificateId;
 
     private String enterpriseId;
+    //    证书扫描件
+    private String certificateFile;
+
     public CertificateInfo() {
+
     }
 }

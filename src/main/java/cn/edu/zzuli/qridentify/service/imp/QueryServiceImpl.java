@@ -37,7 +37,7 @@ public class QueryServiceImpl implements QueryService {
         if (res_Cer_info != null) {
 //            并且信息没有身份证，存在公司编号
             if (StringUtils.isEmpty(res_Cer_info.getIdentifyCode()) && (!StringUtils.isEmpty(res_Cer_info.getEnterpriseId()))) {
-//                那就是公司证书
+//                公司证书
                 Enterprise res_ent = userDao.getEnterInfoByEnterId(res_Cer_info.getEnterpriseId());
                 infoVo = new InfoVo().setCertificateInfo(res_Cer_info).setEnterprise(res_ent);
             } else if ((!StringUtils.isEmpty(res_Cer_info.getIdentifyCode())) && (StringUtils.isEmpty(res_Cer_info.getEnterpriseId()))) {

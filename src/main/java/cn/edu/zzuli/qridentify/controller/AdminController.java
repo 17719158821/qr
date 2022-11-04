@@ -59,11 +59,11 @@ public class AdminController {
         return new Result("查询成功", Result.OK, pageInfo);
     }
 
-    //    上传用户证件照
-    @PostMapping("uploadUserPic")
+    //    上传证书扫描件
+    @PostMapping("uploadCerPic")
     @ResponseBody
-    public Result uploadUserPic(@RequestParam("file") MultipartFile file, @Param("identifyCode") String identifyCode) {
-        Result result = adminService.uploadUserPic(file, identifyCode);
+    public Result uploadUserPic(@RequestParam("file") MultipartFile file, @Param("certificateCode") String certificateCode) {
+        Result result = adminService.uploadUserPic(file, certificateCode);
         return result;
     }
 
