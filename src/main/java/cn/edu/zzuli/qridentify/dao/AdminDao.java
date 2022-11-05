@@ -23,7 +23,6 @@ public interface AdminDao {
 
     CertificateInfo selectCertificateInfoByCCode(@Param("certificateCode")String certificateCode);
 
-    List<CertificateInfo> selectCertificateInfoByICode(@Param("identifyCode")String identifyCode);
 
     void removeCertificateInfo(@Param("certificateCode")String certificateCode);
 
@@ -35,7 +34,6 @@ public interface AdminDao {
 
     List<UserInfo> selectAllUserList();
 
-    void updatePicPath(@Param("certificateCode")String certificateCode, @Param("path")String path);
 
     Admin selectAminByUNameAndPasswd(@Param("username") String username, @Param("password") String password);
 

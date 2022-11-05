@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public interface UserDao {
+public interface
+UserDao {
     UserInfo getUserInfo(@Param("identifyCode") String identifyCode);
     CertificateInfo getCertificateInfo(@Param("identifyCode")String identifyCode,@Param("type")String type);
-    List<CertificateInfo> getCertificateInfoByCode(String code);
 
     CertificateInfo getCertificateInfoByCertificateCode(@Param("certificateCode")String code);
 
