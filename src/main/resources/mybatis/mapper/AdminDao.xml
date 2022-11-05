@@ -9,16 +9,16 @@
 
     <insert id="insertUserInfo" parameterType="cn.edu.zzuli.qridentify.entity.UserInfo">
         insert into user_info
-            (name, identify_code, age, phone_number, address, gender, pic)
-        values (#{name}, #{identifyCode}, #{age}, #{phoneNumber}, #{address}, #{gender}, #{pic})
+            (name, identify_code, age, phone_number, address, gender)
+        values (#{name}, #{identifyCode}, #{age}, #{phoneNumber}, #{address}, #{gender})
     </insert>
 
     <insert id="insertCertificateInfo" parameterType="cn.edu.zzuli.qridentify.entity.CertificateInfo">
         insert into certificate_info
         (certificate_code, type, test_grade, practice_grade, certificate_dept, review_result, total_grade,
-         certificate_date, identify_code, level, certificate_id, enterprise_id)
+         certificate_date, identify_code, level, certificate_id, enterprise_id, pic)
         values (#{certificateCode}, #{type}, #{testGrade}, #{practiceGrade}, #{certificateDept}, #{reviewResult},
-                #{totalGrade}, #{certificateDate}, #{identifyCode}, #{level}, #{certificateId}, #{enterpriseId})
+                #{totalGrade}, #{certificateDate}, #{identifyCode}, #{level}, #{certificateId}, #{enterpriseId},#{pic})
     </insert>
 
     <select id="selectUserInfoByIdentify" resultType="cn.edu.zzuli.qridentify.entity.UserInfo">

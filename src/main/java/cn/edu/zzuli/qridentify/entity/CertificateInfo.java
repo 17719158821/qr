@@ -36,7 +36,7 @@ public class CertificateInfo {
 
     private String enterpriseId;
     //    证书扫描件
-    private String certificateFile;
+    private String pic;
 
     public CertificateInfo() {
 

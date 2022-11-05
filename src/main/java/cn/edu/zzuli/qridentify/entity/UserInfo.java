@@ -17,8 +17,6 @@ public class UserInfo {
     private String address;
 //    性别
     private String gender;
-//    证件照路径
-    private String pic;
     private Long userId;
     public UserInfo() {
     }

@@ -81,7 +81,6 @@ public class AdminServiceIpm implements AdminService {
 //            获取文件原名
             String ori_name = multipartFile.getOriginalFilename();
             String url = FIleUpload.upload(ori_name, new File(cacheFilePath));
-            adminDao.updatePicPath(certificateCode, url);
             return new Result("上传成功", Result.OK, url);
         } catch (Exception e) {
             return new Result("上传失败", Result.ERR);

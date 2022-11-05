@@ -66,8 +66,8 @@ public class BindData {
         }
 
 
-        userInfo.setIdentifyCode(identifyCode).setName(name).setAddress(address).setAge(age).setGender(gender).setPhoneNumber(phoneNumber).setPic(pic).setUserId(userId);
-        certificateInfo.setCertificateCode(certificateCode).setIdentifyCode(identifyCode).setCertificateDept(certificateDept).setQrCodePath(qrCodePath).setLevel(level).setPracticeGrade(practiceGrade).setTestGrade(testGrade).setTotalGrade(totalGrade).setType(type).setCertificateId(certificateId).setReviewResult(reviewResult);
+        userInfo.setIdentifyCode(identifyCode).setName(name).setAddress(address).setAge(age).setGender(gender).setPhoneNumber(phoneNumber).setUserId(userId);
+        certificateInfo.setPic(pic).setCertificateCode(certificateCode).setIdentifyCode(identifyCode).setCertificateDept(certificateDept).setQrCodePath(qrCodePath).setLevel(level).setPracticeGrade(practiceGrade).setTestGrade(testGrade).setTotalGrade(totalGrade).setType(type).setCertificateId(certificateId).setReviewResult(reviewResult);
 
     }
 
@@ -81,7 +81,7 @@ public class BindData {
         String phoneNumber = (String) map.get("phoneNumber");
         String address = (String) map.get("address");
         enterpriseInfo.setEnterpriseId(enterpriseId).setEnterpriseName(enterpriseName).setAddress(address).setPhoneNumber(phoneNumber);
-
+        String pic = (String) map.get("pic");
 //        证书类型，认证时间，认证等级，认证部门，复审情况，二维码地址，证书编号，证书id
         String certificateDate_tem = (String) map.get("certificateDate");
 
@@ -103,7 +103,7 @@ public class BindData {
             certificateId = Long.valueOf(certificateId_item);
         }
         certificateInfo.setType(type).setLevel(level).setCertificateDept(certificateDept)
-//                .setReviewResult(reviewResult)
+                .setPic(pic)
                 .setCertificateCode(certificateCode).setCertificateId(certificateId).setEnterpriseId(enterpriseId);
     }
 }
