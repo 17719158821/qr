@@ -3,10 +3,10 @@ spring:
     date-format: yyyy-MM-dd
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://49.234.32.190:3306/qr?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
+    url: jdbc:mysql://47.122.6.207:3306/qr?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: qr
-    password: root
+    password: hhroot
     initial-size: 5
     min-idle: 10
     max-active: 20
@@ -27,8 +27,11 @@ logging:
 
 qr:
   path:
-    generate: http://124.220.156.201:8801/result?certificateCode=
-    linux: /JavaDev/qrStatic
-    windows: D:\WorkSpace\IdeaWorkSpace\qr\files
+    generate: http://47.122.6.207:80/result?certificateCode=
+    linux: /home/QrIdentify/Java
+    windows: C:\QRIdentify\
+#    generate: http://124.220.156.201:8801/result?certificateCode=
+#    linux: /JavaDev/qrStatic
+#    windows: D:\WorkSpace\IdeaWorkSpace\qr\files
 
 

@@ -5,3 +5,4 @@ spring:
     active: pro
 server:
   port: 8080
+  max-http-header-size: 8192

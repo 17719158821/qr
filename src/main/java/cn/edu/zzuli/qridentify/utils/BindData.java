@@ -15,8 +15,8 @@ public class BindData {
         String date = (String) map.get("certificateDate");
 
         if (!StringUtils.isEmpty(date)) {
-            if(date.length()>10){
-                date = date.substring(0,10);
+            if (date.length() > 10) {
+                date = date.substring(0, 10);
             }
             Date certificateDate = Date.valueOf(date);
             certificateInfo.setCertificateDate(certificateDate);
@@ -46,13 +46,13 @@ public class BindData {
         Double testGrade = null;
         Double practiceGrade = null;
         Double totalGrade = null;
-        if (!StringUtils.isEmpty(tGrade)) {
+        if (!StringUtils.isEmpty(tGrade) && tGrade != null) {
             testGrade = Double.valueOf(tGrade);
         }
-        if (!StringUtils.isEmpty(pGrade)) {
+        if (!StringUtils.isEmpty(pGrade) && pGrade != null) {
             practiceGrade = Double.valueOf(pGrade);
         }
-        if (!StringUtils.isEmpty(toGrade)) {
+        if (!StringUtils.isEmpty(toGrade) && toGrade != null) {
             totalGrade = Double.valueOf(toGrade);
         }
 
@@ -61,7 +61,7 @@ public class BindData {
         String certificateCode = (String) map.get("certificateCode");
         String certificateId_item = (String) map.get("certificateId");
         Long certificateId = null;
-        if (!StringUtils.isEmpty(certificateId_item)) {
+        if (!StringUtils.isEmpty(certificateId_item) && certificateId_item != null) {
             certificateId = Long.valueOf(certificateId_item);
         }
 
@@ -85,9 +85,9 @@ public class BindData {
 //        证书类型，认证时间，认证等级，认证部门，复审情况，二维码地址，证书编号，证书id
         String certificateDate_tem = (String) map.get("certificateDate");
 
-        if (!StringUtils.isEmpty(certificateDate_tem)) {
-            if(certificateDate_tem.length()>10){
-                certificateDate_tem = certificateDate_tem.substring(0,10);
+        if (!StringUtils.isEmpty(certificateDate_tem) && certificateDate_tem != null) {
+            if (certificateDate_tem.length() > 10) {
+                certificateDate_tem = certificateDate_tem.substring(0, 10);
             }
             Date date = Date.valueOf(certificateDate_tem);
             certificateInfo.setCertificateDate(date);
@@ -99,7 +99,7 @@ public class BindData {
         String certificateCode = (String) map.get("certificateCode");
         String certificateId_item = (String) map.get("certificateId");
         Long certificateId = null;
-        if (!StringUtils.isEmpty(certificateId_item)) {
+        if (!StringUtils.isEmpty(certificateId_item) && certificateId_item != null) {
             certificateId = Long.valueOf(certificateId_item);
         }
         certificateInfo.setType(type).setLevel(level).setCertificateDept(certificateDept)

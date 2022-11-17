@@ -31,20 +31,11 @@
     </select>
     <select id="getCertificationByEnterId" resultType="cn.edu.zzuli.qridentify.entity.CertificateInfo">
         select
-        c.certificate_code,
-        c.type,
-        c.certificate_dept,
-        c.review_result,
-        c.certificate_date,
-        c.level,
-        c.qr_code_path,
-        c.certificate_id,
-        c.enterprise_id
-        from certificate_info c, enterprise_info e
-        where e.enterprise_id = c.enterprise_id
-          and e.enterprise_id = #{enterpriseId}
+        *
+        from certificate_info
+        where enterprise_id = #{enterpriseId}
         <if test="type != null">
-            and c.type = #{type}
+            and type = #{type}
         </if>
     </select>
     <select id="getEnterInfo" resultType="cn.edu.zzuli.qridentify.entity.Enterprise">

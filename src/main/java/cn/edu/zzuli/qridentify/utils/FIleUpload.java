@@ -10,10 +10,10 @@ import java.io.File;
 
 public class FIleUpload {
     public static String upload(String fileName, File upFile) throws Exception {
-        String endpoint = "oss-cn-beijing.aliyuncs.com";
-        String accessKeyId = "LTAI4GGLWTNTMPZRt1Wh9fpb";
-        String accessKeySecret = "doB8g31OFWeS3kypBYWQK9QprVr1O9";
-        String bucketName = "newsystem1771915";
+        String endpoint = "oss-cn-hangzhou.aliyuncs.com";
+        String accessKeyId = "LTAI5tHyk5DqgXbbmsxXj8L5";
+        String accessKeySecret = "BsZQShEGonl0ZMtJzDhNeiOsOBxkjv";
+        String bucketName = "qr-identify";
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
         try {
             fileName = "qr/" + fileName;
