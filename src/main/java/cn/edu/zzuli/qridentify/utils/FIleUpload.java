@@ -11,8 +11,8 @@ import java.io.File;
 public class FIleUpload {
     public static String upload(String fileName, File upFile) throws Exception {
         String endpoint = "oss-cn-hangzhou.aliyuncs.com";
-        String accessKeyId = "LTAI5tHyk5DqgXbbmsxXj8L5";
-        String accessKeySecret = "BsZQShEGonl0ZMtJzDhNeiOsOBxkjv";
+        String accessKeyId = "";
+        String accessKeySecret = "";
         String bucketName = "qr-identify";
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
         try {
