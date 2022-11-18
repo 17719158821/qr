@@ -18,7 +18,7 @@
         (certificate_code, type, test_grade, practice_grade, certificate_dept, review_result, total_grade,
          certificate_date, identify_code, level, certificate_id, enterprise_id, pic)
         values (#{certificateCode}, #{type}, #{testGrade}, #{practiceGrade}, #{certificateDept}, #{reviewResult},
-                #{totalGrade}, #{certificateDate}, #{identifyCode}, #{level}, #{certificateId}, #{enterpriseId},#{pic})
+                #{totalGrade}, #{certificateDate}, #{identifyCode}, #{level}, #{certificateId}, #{enterpriseId}, #{pic})
     </insert>
 
     <select id="selectUserInfoByIdentify" resultType="cn.edu.zzuli.qridentify.entity.UserInfo">
@@ -111,17 +111,9 @@
         certificate_code = #{certificateCode}
     </update>
 
-    <select id="selectAllCertificateInfoList" resultType="cn.edu.zzuli.qridentify.entity.CertificateInfo">
-        select *
-        from certificate_info
-    </select>
-    <select id="selectAllUserList" resultType="cn.edu.zzuli.qridentify.entity.UserInfo">
-        select *
-        from user_info
-    </select>
 
 
-    <select id="selectAminByUNameAndPasswd" resultType="cn.edu.zzuli.qridentify.entity.Admin">
+    <select id="selectAmin" resultType="cn.edu.zzuli.qridentify.entity.Admin">
         select *
         from admin
         where username = #{username}
@@ -206,8 +198,16 @@
         enterprise_id=#{enterpriseId}
     </update>
 
-    <select id="selectAllEnterList" resultType="cn.edu.zzuli.qridentify.entity.Enterprise">
+    <select id="selectAllEnterCertificateInfoList" resultType="cn.edu.zzuli.qridentify.entity.CertificateInfo">
         select *
-        from enterprise_info
+        from certificate_info
+        where enterprise_id != null
+        or LENGTH(trim(enterprise_id)) > 0
+    </select>
+    <select id="selectAllUserCertificateInfoList" resultType="cn.edu.zzuli.qridentify.entity.CertificateInfo">
+        select *
+        from certificate_info
+        where ISNULL(enterprise_id)
+           or LENGTH(trim(enterprise_id)) = 0
     </select>
 </mapper>

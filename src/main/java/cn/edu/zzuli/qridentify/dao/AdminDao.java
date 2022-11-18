@@ -17,33 +17,28 @@ public interface AdminDao {
 
     Integer insertCertificateInfo(CertificateInfo certificateInfo);
 
-    UserInfo selectUserInfoByIdentify(UserInfo userInfo);
+    UserInfo selectUserInfoByIdentify(String identifyCode);
 
     void removeUserInfo(UserInfo userInfo);
 
-    CertificateInfo selectCertificateInfoByCCode(@Param("certificateCode")String certificateCode);
+    CertificateInfo selectCertificateInfoByCCode(@Param("certificateCode") String certificateCode);
 
-
-    void removeCertificateInfo(@Param("certificateCode")String certificateCode);
+    void removeCertificateInfo(@Param("certificateCode") String certificateCode);
 
     int updateUserInfo(UserInfo userInfo);
 
     int updateCertificateInfo(CertificateInfo certificateInfo);
 
-    List<CertificateInfo> selectAllCertificateInfoList();
+    Admin selectAmin(@Param("username") String username, @Param("password") String password);
 
-    List<UserInfo> selectAllUserList();
-
-
-    Admin selectAminByUNameAndPasswd(@Param("username") String username, @Param("password") String password);
-
-//    查看同一个人是否拥有多个同一种证书
+    //    根据证书类型与身份证号查询证书
     CertificateInfo selectCertificateInfoByCTypeAndUserInfo(@Param("identifyCode") String identifyCode, @Param("type") String type);
 
     Enterprise selectEnterInfoByEnId(String enterpriseId);
 
     void removeEnterInfo(String enterpriseName);
 
+    //根据证书类型与纳税人识别号查询证书
     CertificateInfo selectCertificateInfoByCTypeAndEnterInfo(@Param("enterpriseId") String enterpriseId, @Param("type") String type);
 
     int insertEnterInfo(Enterprise enterpriseInfo);
@@ -52,5 +47,8 @@ public interface AdminDao {
 
     int updateEnterCertificateInfo(CertificateInfo certificateInfo);
 
-    List<Enterprise> selectAllEnterList();
+    List<CertificateInfo> selectAllEnterCertificateInfoList();
+
+    List<CertificateInfo> selectAllUserCertificateInfoList();
+
 }

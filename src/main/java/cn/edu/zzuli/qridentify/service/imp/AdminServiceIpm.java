@@ -92,7 +92,7 @@ public class AdminServiceIpm implements AdminService {
         CertificateInfo certificateInfo = new CertificateInfo();
         BindData.bind(userInfo, certificateInfo, map);
         //查询这个人存不存在，如果不存在则新增，存在则更新
-        UserInfo isExist = adminDao.selectUserInfoByIdentify(userInfo);
+        UserInfo isExist = adminDao.selectUserInfoByIdentify(userInfo.getIdentifyCode());
         if (isExist != null) {
             adminDao.removeUserInfo(userInfo);
         }
@@ -201,23 +201,16 @@ public class AdminServiceIpm implements AdminService {
 
     @Override
     public List<InfoVo> selectList() {
-
-        List<UserInfo> userInfos = adminDao.selectAllUserList();
-        List<CertificateInfo> certificateInfos = adminDao.selectAllCertificateInfoList();
-
+        List<CertificateInfo> certificateInfos = adminDao.selectAllUserCertificateInfoList();
         List<InfoVo> infoVos = new ArrayList<>();
-        for (UserInfo u_item : userInfos) {
-            for (CertificateInfo c_item : certificateInfos) {
-                if (u_item.getIdentifyCode() == c_item.getIdentifyCode() || u_item.getIdentifyCode().equals(c_item.getIdentifyCode())) {
-                    InfoVo infoVo = new InfoVo();
-                    infoVo.setUserInfo(u_item);
-                    infoVo.setCertificateInfo(c_item);
-                    infoVos.add(infoVo);
-                }
-
-            }
+        for (CertificateInfo c_item :
+                certificateInfos) {
+            UserInfo u_item = adminDao.selectUserInfoByIdentify(c_item.getIdentifyCode());
+            InfoVo infoVo = new InfoVo();
+            infoVo.setUserInfo(u_item);
+            infoVo.setCertificateInfo(c_item);
+            infoVos.add(infoVo);
         }
-
         return infoVos;
     }
 
@@ -225,7 +218,7 @@ public class AdminServiceIpm implements AdminService {
     @Override
     public Result selectCerUserInfo(String certificateCode) {
         CertificateInfo certificateInfo = adminDao.selectCertificateInfoByCCode(certificateCode);
-        UserInfo userInfo = adminDao.selectUserInfoByIdentify(new UserInfo().setIdentifyCode(certificateInfo.getIdentifyCode()));
+        UserInfo userInfo = adminDao.selectUserInfoByIdentify(certificateInfo.getIdentifyCode());
 
         InfoVo infoVo = new InfoVo().setUserInfo(userInfo).setCertificateInfo(certificateInfo);
 
@@ -240,7 +233,7 @@ public class AdminServiceIpm implements AdminService {
         String password = admin.getPassword();
         String username = admin.getUsername();
         String encoder_pass = MD5Utils.stringToMD5(password);
-        Admin res = adminDao.selectAminByUNameAndPasswd(username, encoder_pass);
+        Admin res = adminDao.selectAmin(username, encoder_pass);
         if (res != null) {
             return new Result("登录成功", Result.OK);
         }
@@ -264,22 +257,16 @@ public class AdminServiceIpm implements AdminService {
 
     @Override
     public List<InfoVo> selectEnterList() {
-
-        List<Enterprise> enterprises = adminDao.selectAllEnterList();
-        List<CertificateInfo> certificateInfos = adminDao.selectAllCertificateInfoList();
-
+        List<CertificateInfo> certificateInfos = adminDao.selectAllEnterCertificateInfoList();
         List<InfoVo> infoVos = new ArrayList<>();
-        for (Enterprise e_item : enterprises) {
-            for (CertificateInfo c_item : certificateInfos) {
-                if (e_item.getEnterpriseId() == c_item.getEnterpriseId() || e_item.getEnterpriseId().equals(c_item.getEnterpriseId())) {
-                    InfoVo infoVo = new InfoVo();
-                    infoVo.setEnterprise(e_item);
-                    infoVo.setCertificateInfo(c_item);
-                    infoVos.add(infoVo);
-                }
-            }
+        for (CertificateInfo c_item :
+                certificateInfos) {
+            Enterprise e_item = adminDao.selectEnterInfoByEnId(c_item.getEnterpriseId());
+            InfoVo infoVo = new InfoVo();
+            infoVo.setEnterprise(e_item);
+            infoVo.setCertificateInfo(c_item);
+            infoVos.add(infoVo);
         }
-
         return infoVos;
     }
 
