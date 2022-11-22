@@ -13,6 +13,8 @@ public class InfoVo {
     private UserInfo userInfo;
     private CertificateInfo certificateInfo;
     private Enterprise enterprise;
+    private Integer pageSize;
+    private Integer pageNo;
     public InfoVo() {
     }
 }

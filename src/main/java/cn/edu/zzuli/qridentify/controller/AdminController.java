@@ -4,6 +4,7 @@ import cn.edu.zzuli.qridentify.entity.Admin;
 import cn.edu.zzuli.qridentify.entity.InfoVo;
 import cn.edu.zzuli.qridentify.service.AdminService;
 import cn.edu.zzuli.qridentify.utils.Result;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.Generated;
@@ -27,7 +28,7 @@ public class AdminController {
     @PostMapping("add")
     @ResponseBody
     public Result addInfo(@RequestBody Map<String, Object> map) {
-        Result result = adminService.  add(map);
+        Result result = adminService.add(map);
         return result;
     }
 
@@ -51,12 +52,10 @@ public class AdminController {
     @GetMapping("query")
     @ResponseBody
     public Result queryAllList(@RequestParam int pageNum, @RequestParam int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<InfoVo> infoVos = adminService.selectList();
 
-        PageInfo pageInfo = new PageInfo(infoVos);
+        PageInfo infoVos = adminService.selectList(pageNum, pageSize);
 
-        return new Result("查询成功", Result.OK, pageInfo);
+        return new Result("查询成功", Result.OK, infoVos);
     }
 
     //    上传证书扫描件
@@ -108,26 +107,22 @@ public class AdminController {
         Result result = adminService.updateEnter(map);
         return result;
     }
+
     //    列出所有企业证书
     @GetMapping("queryEnter")
     @ResponseBody
     public Result queryAllEnterList(@RequestParam int pageNum, @RequestParam int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<InfoVo> infoVos = adminService.selectEnterList();
-
-        PageInfo pageInfo = new PageInfo(infoVos);
-
-        return new Result("查询成功", Result.OK, pageInfo);
+        PageInfo infoVos = adminService.selectEnterList(pageNum,pageSize);
+        return new Result("查询成功", Result.OK, infoVos);
     }
 
     //    查询企业证书数据
     @GetMapping("queryEnterInfo")
     @ResponseBody
-    public Result queryEnterInfo(@RequestParam("certificateCode")String certificateCode) {
+    public Result queryEnterInfo(@RequestParam("certificateCode") String certificateCode) {
         Result result = adminService.selectCerEnterInfo(certificateCode);
         return result;
     }
-
 
 
 }

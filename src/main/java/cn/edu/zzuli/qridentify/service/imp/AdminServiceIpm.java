@@ -4,10 +4,14 @@ import cn.edu.zzuli.qridentify.dao.AdminDao;
 import cn.edu.zzuli.qridentify.entity.*;
 import cn.edu.zzuli.qridentify.service.AdminService;
 import cn.edu.zzuli.qridentify.utils.*;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -67,6 +71,7 @@ public class AdminServiceIpm implements AdminService {
             return false;
         }
     }
+
     @Override
     public Result uploadUserPic(MultipartFile multipartFile, String certificateCode) {
         String base_path;
@@ -76,7 +81,7 @@ public class AdminServiceIpm implements AdminService {
         } else {
             base_path = System.getProperty("user.dir") + "/cache/";
         }
-        String cacheFilePath = MultiPartFile2File.MultiPartFileToFile(multipartFile,base_path);
+        String cacheFilePath = MultiPartFile2File.MultiPartFileToFile(multipartFile, base_path);
         try {
 //            获取文件原名
             String ori_name = multipartFile.getOriginalFilename();
@@ -86,6 +91,7 @@ public class AdminServiceIpm implements AdminService {
             return new Result("上传失败", Result.ERR);
         }
     }
+
     @Override
     public Result add(Map<String, Object> map) {
         UserInfo userInfo = new UserInfo();
@@ -200,8 +206,10 @@ public class AdminServiceIpm implements AdminService {
     }
 
     @Override
-    public List<InfoVo> selectList() {
+    public PageInfo selectList(int pageNum, int pageSize) {
+        Page<Object> page = PageHelper.startPage(pageNum, pageSize);
         List<CertificateInfo> certificateInfos = adminDao.selectAllUserCertificateInfoList();
+        long total = page.getTotal();
         List<InfoVo> infoVos = new ArrayList<>();
         for (CertificateInfo c_item :
                 certificateInfos) {
@@ -211,7 +219,9 @@ public class AdminServiceIpm implements AdminService {
             infoVo.setCertificateInfo(c_item);
             infoVos.add(infoVo);
         }
-        return infoVos;
+        PageInfo pageInfo = new PageInfo(infoVos);
+        pageInfo.setTotal(total);
+        return pageInfo;
     }
 
 
@@ -256,8 +266,10 @@ public class AdminServiceIpm implements AdminService {
 
 
     @Override
-    public List<InfoVo> selectEnterList() {
+    public PageInfo selectEnterList( int pageNum, int pageSize){
+        Page<Object> page = PageHelper.startPage(pageNum, pageSize);
         List<CertificateInfo> certificateInfos = adminDao.selectAllEnterCertificateInfoList();
+        long total = page.getTotal();
         List<InfoVo> infoVos = new ArrayList<>();
         for (CertificateInfo c_item :
                 certificateInfos) {
@@ -267,7 +279,9 @@ public class AdminServiceIpm implements AdminService {
             infoVo.setCertificateInfo(c_item);
             infoVos.add(infoVo);
         }
-        return infoVos;
+        PageInfo<InfoVo> pageInfo = new PageInfo(infoVos);
+        pageInfo.setTotal(total);
+        return pageInfo;
     }
 
     @Override

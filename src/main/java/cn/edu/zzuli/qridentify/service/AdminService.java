@@ -3,6 +3,8 @@ package cn.edu.zzuli.qridentify.service;
 import cn.edu.zzuli.qridentify.entity.Admin;
 import cn.edu.zzuli.qridentify.entity.InfoVo;
 import cn.edu.zzuli.qridentify.utils.Result;
+import com.github.pagehelper.PageInfo;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -17,7 +19,8 @@ public interface AdminService {
 
     Result update(Map<String, Object> map);
 
-    List<InfoVo> selectList();
+    PageInfo selectList(int pageNum, int pageSize);
+
     Result uploadUserPic(MultipartFile file, String certificateCode);
 
     Result selectCerUserInfo(String certificateCode);
@@ -30,7 +33,7 @@ public interface AdminService {
 
     Result updateEnter(Map<String, Object> map);
 
-    List<InfoVo> selectEnterList();
+    PageInfo selectEnterList( int pageNum, int pageSize);
 
     Result selectCerEnterInfo(String certificateCode);
 }
