@@ -229,5 +229,17 @@
         from certificate_info
         where enterprise_id = #{enterpriseId}
     </select>
+    <update id="updateAdmin">
+        update admin
+        <set>
+            <if test="password != null">
+                password = #{password},
+            </if>
+        </set>
+        where
+        username = #{username}
+        and
+        admin_type = 1
+    </update>
 
 </mapper>

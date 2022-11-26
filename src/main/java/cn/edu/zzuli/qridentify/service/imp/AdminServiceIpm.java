@@ -299,8 +299,11 @@ public class AdminServiceIpm implements AdminService {
     }
 
     @Override
-    public Result fuzzySearch(String key) {
+    public PageInfo fuzzySearch(String key, int pageNum,  int pageSize) {
+        Page<Object> page = PageHelper.startPage(pageNum, pageSize);
         List<UserInfo> userInfos = adminDao.selectUserByName(key);
+        long total = page.getTotal();
+
         List<InfoVo> infoVos = new ArrayList<>();
         for (UserInfo u_item :
                 userInfos) {
@@ -312,12 +315,17 @@ public class AdminServiceIpm implements AdminService {
                 infoVos.add(infoVo);
             }
         }
-        return new Result("查询成功", Result.OK, infoVos);
+        PageInfo<InfoVo> pageInfo = new PageInfo(infoVos);
+        pageInfo.setTotal(total);
+        return pageInfo;
     }
 
     @Override
-    public Result fuzzySearchEnter(String key) {
+    public PageInfo fuzzySearchEnter(String key, int pageNum,  int pageSize) {
+        Page<Object> page = PageHelper.startPage(pageNum, pageSize);
         List<Enterprise> enterpriseList = adminDao.selectEnterpriseByName(key);
+        long total = page.getTotal();
+
         List<InfoVo> infoVos = new ArrayList<>();
         for (Enterprise e_item :
                 enterpriseList) {
@@ -329,7 +337,30 @@ public class AdminServiceIpm implements AdminService {
                 infoVos.add(infoVo);
             }
         }
-        return new Result("查询成功", Result.OK, infoVos);
+        PageInfo<InfoVo> pageInfo = new PageInfo(infoVos);
+        pageInfo.setTotal(total);
+        return pageInfo;
+    }
+
+    @Override
+    public Result updateAdminPWD(Map<String, String> map) {
+        String admin_acc = map.get("adminAcc");
+        String admin_pwd = map.get("adminPWD");
+        String super_acc = map.get("superAcc");
+        String super_pwd = map.get("superPWD");
+
+        admin_pwd = MD5Utils.stringToMD5(admin_pwd);
+
+//        验证超级管理员密码
+        super_pwd = MD5Utils.stringToMD5(super_pwd);
+        Admin s_admin = adminDao.selectAmin(super_acc, super_pwd);
+        if (s_admin == null) {
+            return new Result("修改失败", Result.OK);
+        }else {
+            adminDao.updateAdmin(admin_acc,admin_pwd);
+            return new Result("修改成功", Result.OK);
+
+        }
     }
 
 

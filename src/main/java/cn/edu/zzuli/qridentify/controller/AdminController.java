@@ -126,15 +126,21 @@ public class AdminController {
 
     @GetMapping("fuzzySearchEnter")
     @ResponseBody
-    public Result fuzzySearchEnter(@RequestParam("key")String key){
-        Result result = adminService.fuzzySearchEnter(key);
+    public PageInfo fuzzySearchEnter(@RequestParam("key")String key, @RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize){
+        PageInfo result = adminService.fuzzySearchEnter(key,pageNum,pageSize);
         return result;
     }
     @GetMapping("fuzzySearch")
     @ResponseBody
-    public Result fuzzySearch(@RequestParam("key")String key){
-        Result result = adminService.fuzzySearch(key);
+    public PageInfo fuzzySearch(@RequestParam("key")String key, @RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize){
+        PageInfo result = adminService.fuzzySearch(key,pageNum,pageSize);
         return result;
     }
 
+    @PostMapping("updateAdminPWD")
+    @ResponseBody
+    public Result updateAdminPWD(@RequestBody Map<String,String> map){
+        Result result = adminService.updateAdminPWD(map);
+        return result;
+    }
 }

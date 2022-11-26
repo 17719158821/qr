@@ -58,4 +58,6 @@ public interface AdminDao {
     List<Enterprise> selectEnterpriseByName(@Param("key")String key);
 
     List<CertificateInfo> selectCertificateByEnterpriseId(@Param("enterpriseId")String enterpriseId);
+
+    void updateAdmin(@Param("username")String username, @Param("password")String password);
 }

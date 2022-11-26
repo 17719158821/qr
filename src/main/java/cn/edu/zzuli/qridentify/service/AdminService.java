@@ -33,11 +33,13 @@ public interface AdminService {
 
     Result updateEnter(Map<String, Object> map);
 
-    PageInfo selectEnterList( int pageNum, int pageSize);
+    PageInfo selectEnterList(int pageNum, int pageSize);
 
     Result selectCerEnterInfo(String certificateCode);
 
-    Result fuzzySearch(String key);
+    PageInfo fuzzySearch(String key, int pageNum, int pageSize);
 
-    Result fuzzySearchEnter(String key);
+    PageInfo fuzzySearchEnter(String key, int pageNum, int pageSize);
+
+    Result updateAdminPWD(Map<String, String> map);
 }
