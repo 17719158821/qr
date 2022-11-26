@@ -266,7 +266,7 @@ public class AdminServiceIpm implements AdminService {
 
 
     @Override
-    public PageInfo selectEnterList( int pageNum, int pageSize){
+    public PageInfo selectEnterList(int pageNum, int pageSize) {
         Page<Object> page = PageHelper.startPage(pageNum, pageSize);
         List<CertificateInfo> certificateInfos = adminDao.selectAllEnterCertificateInfoList();
         long total = page.getTotal();
@@ -296,6 +296,40 @@ public class AdminServiceIpm implements AdminService {
         }
         InfoVo infoVo = new InfoVo().setEnterprise(enterprise).setCertificateInfo(certificateInfo);
         return new Result("查询成功", Result.OK, infoVo);
+    }
+
+    @Override
+    public Result fuzzySearch(String key) {
+        List<UserInfo> userInfos = adminDao.selectUserByName(key);
+        List<InfoVo> infoVos = new ArrayList<>();
+        for (UserInfo u_item :
+                userInfos) {
+            List<CertificateInfo> certificateInfos = adminDao.selectCertificateByIdentifyCode(u_item.getIdentifyCode());
+            for (CertificateInfo c_item : certificateInfos) {
+                InfoVo infoVo = new InfoVo();
+                infoVo.setUserInfo(u_item);
+                infoVo.setCertificateInfo(c_item);
+                infoVos.add(infoVo);
+            }
+        }
+        return new Result("查询成功", Result.OK, infoVos);
+    }
+
+    @Override
+    public Result fuzzySearchEnter(String key) {
+        List<Enterprise> enterpriseList = adminDao.selectEnterpriseByName(key);
+        List<InfoVo> infoVos = new ArrayList<>();
+        for (Enterprise e_item :
+                enterpriseList) {
+            List<CertificateInfo> certificateInfos = adminDao.selectCertificateByEnterpriseId(e_item.getEnterpriseId());
+            for (CertificateInfo c_item : certificateInfos) {
+                InfoVo infoVo = new InfoVo();
+                infoVo.setEnterprise(e_item);
+                infoVo.setCertificateInfo(c_item);
+                infoVos.add(infoVo);
+            }
+        }
+        return new Result("查询成功", Result.OK, infoVos);
     }
 
 

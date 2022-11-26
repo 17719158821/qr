@@ -112,7 +112,6 @@
     </update>
 
 
-
     <select id="selectAmin" resultType="cn.edu.zzuli.qridentify.entity.Admin">
         select *
         from admin
@@ -210,4 +209,25 @@
         where ISNULL(enterprise_id)
            or LENGTH(trim(enterprise_id)) = 0
     </select>
+    <select id="selectUserByName" resultType="cn.edu.zzuli.qridentify.entity.UserInfo">
+        select *
+        from user_info
+        where name like "%" #{key} "%"
+    </select>
+    <select id="selectCertificateByIdentifyCode" resultType="cn.edu.zzuli.qridentify.entity.CertificateInfo">
+        select *
+        from certificate_info
+        where identify_code = #{identifyCode}
+    </select>
+    <select id="selectEnterpriseByName" resultType="cn.edu.zzuli.qridentify.entity.Enterprise">
+        select *
+        from enterprise_info
+        where enterprise_name like "%" #{key} "%"
+    </select>
+    <select id="selectCertificateByEnterpriseId" resultType="cn.edu.zzuli.qridentify.entity.CertificateInfo">
+        select *
+        from certificate_info
+        where enterprise_id = #{enterpriseId}
+    </select>
+
 </mapper>

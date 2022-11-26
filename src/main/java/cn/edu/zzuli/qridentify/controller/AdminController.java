@@ -124,5 +124,17 @@ public class AdminController {
         return result;
     }
 
+    @GetMapping("fuzzySearchEnter")
+    @ResponseBody
+    public Result fuzzySearchEnter(@RequestParam("key")String key){
+        Result result = adminService.fuzzySearchEnter(key);
+        return result;
+    }
+    @GetMapping("fuzzySearch")
+    @ResponseBody
+    public Result fuzzySearch(@RequestParam("key")String key){
+        Result result = adminService.fuzzySearch(key);
+        return result;
+    }
 
 }

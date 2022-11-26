@@ -51,4 +51,11 @@ public interface AdminDao {
 
     List<CertificateInfo> selectAllUserCertificateInfoList();
 
+    List<UserInfo> selectUserByName(@Param("key")String key);
+
+    List<CertificateInfo> selectCertificateByIdentifyCode(@Param("identifyCode")String identifyCode);
+
+    List<Enterprise> selectEnterpriseByName(@Param("key")String key);
+
+    List<CertificateInfo> selectCertificateByEnterpriseId(@Param("enterpriseId")String enterpriseId);
 }

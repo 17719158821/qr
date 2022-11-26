@@ -36,4 +36,8 @@ public interface AdminService {
     PageInfo selectEnterList( int pageNum, int pageSize);
 
     Result selectCerEnterInfo(String certificateCode);
+
+    Result fuzzySearch(String key);
+
+    Result fuzzySearchEnter(String key);
 }
