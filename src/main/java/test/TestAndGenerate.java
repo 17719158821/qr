@@ -6,9 +6,9 @@ import cn.edu.zzuli.qridentify.utils.QRUtil;
 public class TestAndGenerate {
 
     public static void main(String[] args) {
-        String passwd = "super_admin";
+        String super_passwd = "super_admin";
         generateQR("ZZULI332207050688");
-        generatePasswd(passwd);
+        generatePasswd(super_passwd);
     }
 
 

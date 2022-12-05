@@ -11,9 +11,13 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageOutputStream;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
+
+import xyz.hashdog.dm.bean.Text;
+import xyz.hashdog.dm.util.ImageUtil;
 
 /**
  * 二维码以及图片合成工具类
@@ -34,15 +38,8 @@ public class QRUtil {
      * @throws IOException     写入文件出错
      */
     public static BufferedImage enQRCode(String contents, int width, int height, Map<EncodeHintType, ?> hints) throws WriterException {
-//        String uuid = UUID.randomUUID().toString().replace("-", "");
-        //本地完整路径
-//        String pathname = path + "/" + uuid + "." + format;
         //生成二维码
         BitMatrix bitMatrix = new MultiFormatWriter().encode(contents, BarcodeFormat.QR_CODE, width, height, hints);
-//        Path file = new File(pathname).toPath();
-        //将二维码保存到路径下
-//        MatrixToImageWriter.writeToPa(bitMatrix, format, file);
-//        return pathname;
         return MatrixToImageWriter.toBufferedImage(bitMatrix);
     }
 
@@ -84,36 +81,56 @@ public class QRUtil {
         return backgroundImage;
     }
 
-    public static BufferedImage drawImage(String backgroundPath, BufferedImage zxingImage, int x, int y) throws IOException {
-        //读取背景图的图片流
-        BufferedImage backgroundImage;
-        //Try-with-resources 资源自动关闭,会自动调用close()方法关闭资源,只限于实现Closeable或AutoCloseable接口的类
-        try (InputStream imagein = new FileInputStream(backgroundPath)) {
-            backgroundImage = ImageIO.read(imagein);
+
+    public static void main(String[] args) {
+        //二维码宽度
+        int width = 450;
+        //二维码高度
+        int height = 450;
+        //二维码内容
+        String contcent = "http://124.220.156.201:8801/result?certificateCode=CD2022102022021";
+        BufferedImage zxingImage = null;
+        try {
+            //二维码图片流
+            zxingImage = QRUtil.enQRCode(contcent, width, height, 7);
+            Font f = new Font("Times New Roman", Font.PLAIN, 30);
+            BufferedImage saver = QRUtil.drawString(zxingImage, "ZZULI6786868767810462", f, width, height);
+            InputStream saveInout = QRUtil.bufferedImageToInputStream(saver);
+            QRUtil.saveFile(saveInout, "E:\\WorkSpace\\IdeaWorkSpace\\qr\\cache\\QR.png");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return drawImage(backgroundImage, zxingImage, x, y);
     }
 
     /**
      * 将文字绘制在背景图上
      *
      * @param backgroundImage 背景图
-     * @param x               文字在背景图上绘制的x轴起点
-     * @param y               文字在背景图上绘制的y轴起点
      * @return
      * @throws IOException
      */
-    public static BufferedImage drawString(BufferedImage backgroundImage, String text, int x, int y, Font font, Color color) {
-        //绘制文字
-        Graphics2D g = backgroundImage.createGraphics();
-        //设置颜色
-        g.setColor(color);
-        //消除锯齿状
-        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
-        //设置字体
-        g.setFont(font);
-        //绘制文字
-        g.drawString(text, x, y);
+    public static BufferedImage drawString(BufferedImage backgroundImage, String text, Font font, int width, int height) {
+        Graphics2D g2d = backgroundImage.createGraphics();
+//        设置字体
+        g2d.setFont(font);
+//        设置背景颜色
+        g2d.setColor(new Color(0, 0, 0));
+//        平滑锯齿
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+//        得到字体矩阵
+        FontMetrics fm2 = g2d.getFontMetrics();
+//        得到字体的边框对象
+        Rectangle2D rec2 = fm2.getStringBounds(text, g2d);
+//        得到绘制的字宽度
+        int cx = (int) Math.ceil(rec2.getWidth());
+//        得到绘制的字长度
+        int cy = (int) Math.ceil(rec2.getHeight());
+        g2d.dispose();
+//        居中字体,得到绘制的起始位置
+        width = (width-cx) / 2;
+//        置于底部
+        height = height - 10 - cy;
+        ImageUtil.DrawString(backgroundImage, text, width, height, font, "#000000");
         return backgroundImage;
     }
 
@@ -158,39 +175,20 @@ public class QRUtil {
         }
     }
 
-    public static void main(String[] args) {
-        //二维码宽度
-        int width = 450;
-        //二维码高度
-        int height = 450;
-        //二维码内容
-        String contcent = "http://124.220.156.201:8801/result?certificateCode=CD2022102022021";
-        BufferedImage zxingImage = null;
-        try {
-            //二维码图片流
-            zxingImage = QRUtil.enQRCode(contcent, width, height, 7);
-            Font f = new Font("Times New Roman", Font.PLAIN, 30);
-            BufferedImage saver = QRUtil.drawString(zxingImage, "CD2022102022021", 107, 30, f, new Color(0, 0, 0));
-            InputStream saveInout = QRUtil.bufferedImageToInputStream(saver);
-            QRUtil.saveFile(saveInout, "/Users/huanghuan/Downloads/QR.png");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void generateQRFile(String content, String img_text, String dist_path) {
         //二维码宽度
         int width = 450;
         //二维码高度
         int height = 450;
-        //二维码内容
+        //二维码
         BufferedImage zxingImage = null;
         try {
-            //二维码图片流
-//            其中margin，x，y，f都不要更改
+//            生成二维码
             zxingImage = QRUtil.enQRCode(content, width, height, 7);
             Font f = new Font("Times New Roman", Font.PLAIN, 30);
-            BufferedImage saver = QRUtil.drawString(zxingImage, img_text, 85, 425, f, new Color(0, 0, 0));
+//            将编号绘制入二维码底部居中
+            BufferedImage saver = QRUtil.drawString(zxingImage, img_text, f, width, height);
             InputStream saveInout = QRUtil.bufferedImageToInputStream(saver);
 //            二维码保存到本地缓存
             QRUtil.saveFile(saveInout, dist_path);
@@ -198,6 +196,7 @@ public class QRUtil {
             e.printStackTrace();
         }
     }
+
     public static void mkdirs(String destPath) {
         File file = new File(destPath);
         // 当文件夹不存在时，mkdirs会自动创建多层目录，区别于mkdir．(mkdir如果父目录不存在则会抛出异常)

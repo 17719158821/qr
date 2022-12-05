@@ -59,15 +59,23 @@
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>2.2.2</version>
         </dependency>
+<!--        对象存储-->
         <dependency>
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
             <version>3.10.2</version>
         </dependency>
+<!--        分页插件-->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>1.2.5</version>
+        </dependency>
+<!--        文字绘制，居中-->
+        <dependency>
+            <groupId>io.github.tanhuang2016</groupId>
+            <artifactId>jmap</artifactId>
+            <version>1.0.1</version>
         </dependency>
 
     </dependencies>
